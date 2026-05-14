@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure Pharmaceutical Supply Chain Management with Hash-Chain Ledger for Counterfeit Detection">
+  <title>Pharma Supply Chain — Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="app-container">
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero-badge"><span class="pulse"></span> DevSecOps Secured</div>
+      <h1>Pharma <span>Supply Chain</span></h1>
+      <p>Secure pharmaceutical management with hash-chain ledger for tamper-proof counterfeit detection</p>
+    </header>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-icon">💊</span><div class="stat-label">Registered Drugs</div><div class="stat-value" id="statDrugs">0</div></div>
+      <div class="stat-card"><span class="stat-icon">🚚</span><div class="stat-label">Active Shipments</div><div class="stat-value" id="statShipments">0</div></div>
+      <div class="stat-card"><span class="stat-icon">🔗</span><div class="stat-label">Ledger Blocks</div><div class="stat-value" id="statBlocks">0</div></div>
+      <div class="stat-card"><span class="stat-icon">🛡️</span><div class="stat-label">Chain Status</div><div class="stat-value" id="statChain">—</div></div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="drugs">💊 Drugs</button>
+      <button class="nav-tab" data-tab="shipments">🚚 Shipments</button>
+      <button class="nav-tab" data-tab="verify">🛡️ Verify</button>
+      <button class="nav-tab" data-tab="ledger">🔗 Ledger</button>
+    </nav>
+
+    <!-- Tab: Drugs -->
+    <div class="tab-content active" id="tab-drugs">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">💊 Register New Drug</div></div>
+          <form id="drugForm" class="form-grid">
+            <div class="form-group"><label class="form-label">Drug Name</label><input class="form-input" id="drugName" placeholder="e.g. Aspirin" required></div>
+            <div class="form-group"><label class="form-label">Manufacturer</label><input class="form-input" id="drugMfg" placeholder="e.g. PharmaCorp" required></div>
+            <div class="form-group"><label class="form-label">Batch ID</label><input class="form-input" id="drugBatch" placeholder="e.g. BATCH-001" required></div>
+            <div class="form-group"><label class="form-label">Expiry Date</label><input class="form-input" id="drugExpiry" type="date" required></div>
+            <div class="form-group full-width"><label class="form-label">Description (optional)</label><input class="form-input" id="drugDesc" placeholder="Brief description"></div>
+            <div class="form-group full-width"><button type="submit" class="btn btn-primary" style="width:100%">Register Drug</button></div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📋 Registered Drugs</div><button class="btn btn-sm btn-primary" onclick="loadDrugs()">↻ Refresh</button></div>
+          <div id="drugList"><div class="empty-state"><div class="icon">💊</div><p>No drugs registered yet</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Shipments -->
+    <div class="tab-content" id="tab-shipments">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">🚚 Create Shipment</div></div>
+          <form id="shipmentForm" class="form-grid">
+            <div class="form-group"><label class="form-label">Drug ID</label><input class="form-input" id="shipDrugId" placeholder="Drug UUID" required></div>
+            <div class="form-group"><label class="form-label">Drug Name</label><input class="form-input" id="shipDrugName" placeholder="e.g. Aspirin" required></div>
+            <div class="form-group"><label class="form-label">Origin</label><input class="form-input" id="shipOrigin" placeholder="e.g. Mumbai Warehouse" required></div>
+            <div class="form-group"><label class="form-label">Destination</label><input class="form-input" id="shipDest" placeholder="e.g. Delhi Hospital" required></div>
+            <div class="form-group"><label class="form-label">Quantity</label><input class="form-input" id="shipQty" type="number" min="1" value="1"></div>
+            <div class="form-group" style="justify-content:flex-end"><button type="submit" class="btn btn-primary" style="width:100%;margin-top:auto">Create Shipment</button></div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">📦 Shipments</div><button class="btn btn-sm btn-primary" onclick="loadShipments()">↻ Refresh</button></div>
+          <div id="shipmentList"><div class="empty-state"><div class="icon">📦</div><p>No shipments created yet</p></div></div>
+        </div>
+      </div>
+      <!-- Status Update -->
+      <div class="card" id="statusUpdateCard" style="display:none">
+        <div class="card-header"><div class="card-title">🔄 Update Shipment Status</div></div>
+        <form id="statusForm" class="form-grid">
+          <div class="form-group"><label class="form-label">Shipment ID</label><input class="form-input" id="statusShipId" required></div>
+          <div class="form-group"><label class="form-label">New Status</label>
+            <select class="form-select" id="statusValue" required>
+              <option value="">Select status</option>
+              <option value="in-transit">In Transit</option>
+              <option value="at-checkpoint">At Checkpoint</option>
+              <option value="delivered">Delivered</option>
+              <option value="recalled">Recalled</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="statusLocation" placeholder="e.g. Highway NH-48"></div>
+          <div class="form-group" style="justify-content:flex-end"><button type="submit" class="btn btn-success" style="margin-top:auto">Update Status</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tab: Verify -->
+    <div class="tab-content" id="tab-verify">
+      <div class="card" style="text-align:center">
+        <div class="card-title" style="justify-content:center;margin-bottom:16px">🛡️ Supply Chain Integrity Verification</div>
+        <p style="color:var(--text-secondary);margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">Verify the entire hash-chain ledger to detect any tampering or counterfeit entries in the pharmaceutical supply chain.</p>
+        <button class="btn btn-success" id="verifyBtn" onclick="verifyChain()" style="font-size:1rem;padding:16px 40px">🔍 Verify Chain Integrity</button>
+        <div id="verifyResult"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Ledger -->
+    <div class="tab-content" id="tab-ledger">
+      <div class="card">
+        <div class="card-header"><div class="card-title">🔗 Hash-Chain Ledger</div><button class="btn btn-sm btn-primary" onclick="loadLedger()">↻ Refresh</button></div>
+        <p style="color:var(--text-secondary);margin-bottom:16px;font-size:.85rem">Each block is linked to the previous via SHA-256 hash. Tampering with any block invalidates the entire chain.</p>
+        <div id="ledgerView"><div class="empty-state"><div class="icon">🔗</div><p>Loading ledger...</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Update Modal -->
+  <div class="modal-overlay" id="shipmentModal" style="display:none">
+    <div class="modal">
+      <div class="modal-title">📦 Shipment Details</div>
+      <div id="shipmentModalBody"></div>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-sm" onclick="selectShipmentForUpdate()">Update Status</button>
+        <button class="btn btn-sm" style="background:var(--border-glass);color:var(--text-primary)" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
