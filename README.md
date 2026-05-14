@@ -416,14 +416,8 @@ Block 0 (Genesis)          Block 1 (Drug Reg)         Block 2 (Shipment)
 
 ---
 
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
 ## 👤 Author
 
-**Abhijeet Rai**
+**Abhijeet Rai** **Nikhil Garg**
 
 Built as a Major Project for Secure Pharmaceutical Supply Chain with DevSecOps practices.
