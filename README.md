@@ -135,8 +135,8 @@ pharma-devops-project/
 
 ```bash
 # Clone the repository
-git clone https://github.com/Abhi-3009/pharma-devops-project.git
-cd pharma-devops-project
+git clone https://github.com/Abhi-3009/pharmaceutical-supply-chain.git
+cd pharmaceutical-supply-chain
 
 # Install dependencies
 cd app
