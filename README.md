@@ -418,6 +418,6 @@ Block 0 (Genesis)          Block 1 (Drug Reg)         Block 2 (Shipment)
 
 ## 👤 Author
 
-**Abhijeet Rai** **Nikhil Garg**
+**Abhijeet Rai** and **Nikhil Garg**
 
 Built as a Major Project for Secure Pharmaceutical Supply Chain with DevSecOps practices.
