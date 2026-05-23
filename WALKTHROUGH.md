@@ -230,14 +230,29 @@ Block #6 | SHIPMENT_STATUS_UPDATE ← Delivered
 # Create a Docker network for Jenkins + SonarQube
 docker network create jenkins-net
 
-# Run Jenkins with Docker-in-Docker support
+# Run Jenkins (Choose Option A for Apple Silicon/ARM64 Mac, Option B for x86_64)
+
+# Option A: Build and Run Custom Jenkins (Recommended for Apple Silicon / ARM64)
+# (Includes libatomic1 required by modern Node.js versions on aarch64)
+docker build -t custom-jenkins -f docker/Dockerfile.jenkins .
+
 docker run -d \
   --name jenkins \
   --network jenkins-net \
   -p 8080:8080 -p 50000:50000 \
   -v jenkins_home:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  jenkins/jenkins:lts-jdk17
+  custom-jenkins
+
+# Option B: Run Standard Jenkins
+# (If using this on Apple Silicon, run: docker exec -u 0 jenkins apt-get update && docker exec -u 0 jenkins apt-get install -y libatomic1)
+# docker run -d \
+#   --name jenkins \
+#   --network jenkins-net \
+#   -p 8080:8080 -p 50000:50000 \
+#   -v jenkins_home:/var/jenkins_home \
+#   -v /var/run/docker.sock:/var/run/docker.sock \
+#   jenkins/jenkins:lts-jdk17
 
 # Get the initial admin password
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
@@ -662,6 +677,9 @@ cd elk && docker-compose up -d          # Kibana → http://localhost:5601
 
 ### Jenkins
 ```bash
-docker run -d --name jenkins -p 8080:8080 jenkins/jenkins:lts-jdk17
+# Build custom image to include libatomic1 (ARM64 support)
+docker build -t custom-jenkins -f docker/Dockerfile.jenkins .
+
+docker run -d --name jenkins -p 8080:8080 custom-jenkins
 # → http://localhost:8080
 ```
