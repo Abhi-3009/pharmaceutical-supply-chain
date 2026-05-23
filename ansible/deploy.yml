@@ -96,18 +96,14 @@
     # Post-deployment: Verify application health
     # --------------------------------------------------
     - name: Verify application health
-      uri:
-        url: "http://localhost:30080/health"
-        method: GET
-        return_content: yes
-        status_code: 200
+      command: "kubectl exec -n {{ k8s_namespace }} deployment/pharma-app -- wget -qO- http://localhost:3000/health"
       register: health_result
       retries: 5
       delay: 10
-      until: health_result.status == 200
+      until: health_result.rc == 0 and '"healthy"' in health_result.stdout
       tags: [verify]
 
     - name: Display health check result
       debug:
-        msg: "Application is {{ health_result.json.status }} — uptime: {{ health_result.json.uptime }}s"
+        msg: "Application health status: {{ health_result.stdout }}"
       tags: [verify]
