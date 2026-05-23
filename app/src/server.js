@@ -44,7 +44,7 @@ app.use(cors());
 // Rate Limiting — prevent brute-force / DDoS
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per window
+  max: 10000, // limit each IP to 10000 requests per window
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },

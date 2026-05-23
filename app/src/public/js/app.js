@@ -187,7 +187,7 @@ async function viewShipment(id) {
   try {
     const res = await fetch(`${API}/shipments/${id}`);
     const data = await res.json();
-    if (!res.ok) { showToast('Shipment not found', 'error'); return; }
+    if (!res.ok) { showToast(data.error || 'Shipment not found', 'error'); return; }
     currentShipment = data.shipment;
     const s = data.shipment;
     document.getElementById('shipmentModalBody').innerHTML = `
