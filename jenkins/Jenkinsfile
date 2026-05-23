@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS-18'
+    }
+
     environment {
         DOCKER_IMAGE = "codestack123/pharma-supply-chain"
         DOCKER_TAG = "${BUILD_NUMBER}"
