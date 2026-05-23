@@ -9,6 +9,7 @@ const verifyRoutes = require('./routes/verifyRoutes');
 const logger = require('./utils/logger');
 
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (e.g. Minikube Ingress/docker proxy)
 
 // Health check endpoint (Bypasses rate limiting for Kubernetes probes)
 app.get('/health', (req, res) => {
@@ -48,7 +49,6 @@ const limiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
 });
-app.use(limiter);
 
 // Body parsing
 app.use(express.json({ limit: '10kb' })); // limit body size for security
@@ -69,6 +69,9 @@ app.use((req, res, next) => {
 // Static Files (Frontend Dashboard)
 // ---------------------
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Apply rate limiting to API routes only (after static files)
+app.use(limiter);
 
 // ---------------------
 // Routes

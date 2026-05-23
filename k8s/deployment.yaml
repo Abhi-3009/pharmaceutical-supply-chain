@@ -25,6 +25,7 @@ spec:
       containers:
         - name: pharma-app
           image: codestack123/pharma-supply-chain:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
               protocol: TCP

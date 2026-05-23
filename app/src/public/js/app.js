@@ -101,7 +101,10 @@ async function loadDrugs() {
           <thead><tr><th>Name</th><th>Manufacturer</th><th>Batch</th><th>Expiry</th><th>Status</th></tr></thead>
           <tbody>${data.drugs.map(d => `
             <tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(d.name)}</td>
+              <td style="color:var(--text-primary);font-weight:500">
+                ${esc(d.name)}
+                <div style="font-size:.7rem;color:var(--text-muted);font-family:monospace;margin-top:2px">${d.id}</div>
+              </td>
               <td>${esc(d.manufacturer)}</td>
               <td><code style="color:var(--accent-indigo-light);font-size:.8rem">${esc(d.batchId)}</code></td>
               <td>${d.expiryDate}</td>
