@@ -87,7 +87,8 @@ pipeline {
                 echo '🔒 Running Static Application Security Testing (SAST)...'
                 dir('app') {
                     withSonarQubeEnv('SonarQube') {
-                        sh "${SCANNER_HOME}/bin/sonar-scanner"
+                        sh """${SCANNER_HOME}/bin/sonar-scanner \
+                          -Dsonar.nodejs.executable=\$(which node)"""
                     }
                 }
             }
