@@ -10,6 +10,16 @@ const logger = require('./utils/logger');
 
 const app = express();
 
+// Health check endpoint (Bypasses rate limiting for Kubernetes probes)
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    service: 'pharma-supply-chain',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // ---------------------
 // Security Middleware
 // ---------------------

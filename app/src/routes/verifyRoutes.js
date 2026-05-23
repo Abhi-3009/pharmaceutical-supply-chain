@@ -61,20 +61,6 @@ router.get('/ledger', (req, res) => {
   }
 });
 
-/**
- * GET /health
- * Health check endpoint for Docker/Kubernetes probes.
- *
- * Response: 200 with uptime and status
- */
-router.get('/health', (req, res) => {
-  return res.status(200).json({
-    status: 'healthy',
-    service: 'pharma-supply-chain',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
-  });
-});
 
 /**
  * GET /api/info
