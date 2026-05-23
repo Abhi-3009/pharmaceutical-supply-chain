@@ -1,6 +1,6 @@
 # ---- Phase 2: Dockerfile (Multi-stage build) ----
 # Stage 1: Install production dependencies
-FROM node:18-alpine AS builder
+FROM node:26-alpine AS builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ RUN npm ci --only=production && \
 COPY app/src ./src
 
 # ---- Stage 2: Production image ----
-FROM node:18-alpine
+FROM node:26-alpine
 
 # Security: Add non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup

@@ -126,7 +126,7 @@ pharma-devops-project/
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 26+ and npm
 - Docker (for containerization)
 - Minikube or kubectl (for Kubernetes)
 - Jenkins (for CI/CD pipeline)
@@ -418,6 +418,6 @@ Block 0 (Genesis)          Block 1 (Drug Reg)         Block 2 (Shipment)
 
 ## 👤 Author
 
-**Abhijeet Rai** and **Nikhil Garg**
+**Abhijeet Rai** & **Nikhil Garg**
 
 Built as a Major Project for Secure Pharmaceutical Supply Chain with DevSecOps practices.
