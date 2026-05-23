@@ -232,15 +232,13 @@ pipeline {
                     # Update the image tag in the deployment manifest
                     sed -i "s|image:.*|image: ${DOCKER_IMAGE}:${DOCKER_TAG}|g" k8s/deployment.yaml
 
-                    # Option A: Direct kubectl deployment (DISABLED)
-                    # kubectl apply -f k8s/namespace.yaml
-                    # kubectl apply -f k8s/deployment.yaml
-                    # kubectl apply -f k8s/service.yaml
-                    # kubectl rollout status deployment/pharma-app -n pharma-app --timeout=120s
+                    # Dynamically recreate the .vault_pass file for Ansible decryption
+                    echo "secret123" > ansible/.vault_pass
+                    chmod 600 ansible/.vault_pass
                 '''
 
                 // Option B: Ansible deployment (ENABLED)
-                sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
+                sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml --vault-password-file ansible/.vault_pass'
             }
         }
     }
