@@ -115,7 +115,7 @@ pipeline {
 
                     // OWASP Dependency-Check (if available)
                     sh '''
-                        if command -v dependency-check.sh &> /dev/null; then
+                        if command -v dependency-check.sh >/dev/null 2>&1; then
                             dependency-check.sh \
                                 --project "pharma-supply-chain" \
                                 --scan . \
