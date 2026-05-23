@@ -165,15 +165,17 @@ async function loadShipments() {
     container.innerHTML = `
       <div class="table-container">
         <table>
-          <thead><tr><th>Drug</th><th>Origin</th><th>Destination</th><th>Qty</th><th>Status</th><th>Action</th></tr></thead>
+          <thead><tr><th>Drug</th><th>Origin</th><th>Destination</th><th>Qty</th><th>Status</th></tr></thead>
           <tbody>${data.shipments.map(s => `
             <tr>
-              <td style="color:var(--text-primary);font-weight:500">${esc(s.drugName)}</td>
+              <td style="color:var(--text-primary);font-weight:500">
+                ${esc(s.drugName)}
+                <div style="font-size:.7rem;color:var(--text-muted);font-family:monospace;margin-top:2px">${s.id}</div>
+              </td>
               <td>${esc(s.origin)}</td>
               <td>${esc(s.destination)}</td>
               <td>${s.quantity}</td>
               <td><span class="badge badge-${s.status}">${s.status}</span></td>
-              <td><button class="btn btn-sm btn-primary" onclick="viewShipment('${s.id}')">View</button></td>
             </tr>
           `).join('')}</tbody>
         </table>
